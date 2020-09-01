@@ -1,0 +1,5 @@
+.idea/
+.vagrant/
+/vm_home
+**.pyc
+
