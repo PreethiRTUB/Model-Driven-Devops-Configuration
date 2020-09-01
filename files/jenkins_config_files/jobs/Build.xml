@@ -1,0 +1,113 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.9.1">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <name>origin</name>
+        <url>file:///vagrant/vm_home/mywebapp</url>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>**</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="list"/>
+    <extensions/>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <authToken>build</authToken>
+  <triggers>
+    <hudson.triggers.SCMTrigger>
+      <spec></spec>
+      <ignorePostCommitHooks>false</ignorePostCommitHooks>
+    </hudson.triggers.SCMTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Maven>
+      <targets>clean package</targets>
+      <mavenName>(Default)</mavenName>
+      <usePrivateRepository>false</usePrivateRepository>
+      <settings class="jenkins.mvn.DefaultSettingsProvider"/>
+      <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+      <injectBuildVariables>false</injectBuildVariables>
+    </hudson.tasks.Maven>
+  </builders>
+  <publishers>
+    <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.24">
+      <testResults>target/surefire-reports/junitreports/*xml</testResults>
+      <keepLongStdio>false</keepLongStdio>
+      <testDataPublishers>
+        <org.jenkinsci.plugins.JiraTestResultReporter.JiraTestDataPublisher plugin="JiraTestResultReporter@2.0.6"/>
+      </testDataPublishers>
+      <healthScaleFactor>1.0</healthScaleFactor>
+      <allowEmptyResults>false</allowEmptyResults>
+    </hudson.tasks.junit.JUnitResultArchiver>
+    <hudson.plugins.deploy.DeployPublisher plugin="deploy@1.13">
+      <adapters>
+        <hudson.plugins.deploy.tomcat.Tomcat7xAdapter>
+          <credentialsId>ac2ebc01-8d76-47e5-bffd-64c354ed3698</credentialsId>
+          <url>http://localhost:9090/</url>
+        </hudson.plugins.deploy.tomcat.Tomcat7xAdapter>
+      </adapters>
+      <contextPath>test/mywebapp</contextPath>
+      <war>**/*.war</war>
+      <onFailure>false</onFailure>
+    </hudson.plugins.deploy.DeployPublisher>
+    <hudson.plugins.jacoco.JacocoPublisher plugin="jacoco@3.0.1">
+      <execPattern>**/**.exec</execPattern>
+      <classPattern>**/classes</classPattern>
+      <sourcePattern>**/src/main/java,**/src/test/java</sourcePattern>
+      <inclusionPattern></inclusionPattern>
+      <exclusionPattern></exclusionPattern>
+      <skipCopyOfSrcFiles>false</skipCopyOfSrcFiles>
+      <minimumInstructionCoverage>0</minimumInstructionCoverage>
+      <minimumBranchCoverage>0</minimumBranchCoverage>
+      <minimumComplexityCoverage>0</minimumComplexityCoverage>
+      <minimumLineCoverage>0</minimumLineCoverage>
+      <minimumMethodCoverage>0</minimumMethodCoverage>
+      <minimumClassCoverage>0</minimumClassCoverage>
+      <maximumInstructionCoverage>0</maximumInstructionCoverage>
+      <maximumBranchCoverage>0</maximumBranchCoverage>
+      <maximumComplexityCoverage>0</maximumComplexityCoverage>
+      <maximumLineCoverage>0</maximumLineCoverage>
+      <maximumMethodCoverage>0</maximumMethodCoverage>
+      <maximumClassCoverage>0</maximumClassCoverage>
+      <changeBuildStatus>false</changeBuildStatus>
+      <deltaInstructionCoverage>0</deltaInstructionCoverage>
+      <deltaBranchCoverage>0</deltaBranchCoverage>
+      <deltaComplexityCoverage>0</deltaComplexityCoverage>
+      <deltaLineCoverage>0</deltaLineCoverage>
+      <deltaMethodCoverage>0</deltaMethodCoverage>
+      <deltaClassCoverage>0</deltaClassCoverage>
+      <buildOverBuild>false</buildOverBuild>
+    </hudson.plugins.jacoco.JacocoPublisher>
+    <hudson.plugins.postbuildtask.PostbuildTask plugin="postbuild-task@1.8">
+      <tasks>
+        <hudson.plugins.postbuildtask.TaskProperties>
+          <logTexts>
+            <hudson.plugins.postbuildtask.LogProperties>
+              <logText></logText>
+              <operator>AND</operator>
+            </hudson.plugins.postbuildtask.LogProperties>
+          </logTexts>
+          <EscalateStatus>false</EscalateStatus>
+          <RunIfJobSuccessful>false</RunIfJobSuccessful>
+          <script>cd /vagrant/python-scripts&#xd;
+python postBuildScript.py</script>
+        </hudson.plugins.postbuildtask.TaskProperties>
+      </tasks>
+    </hudson.plugins.postbuildtask.PostbuildTask>
+  </publishers>
+  <buildWrappers/>
+</project>

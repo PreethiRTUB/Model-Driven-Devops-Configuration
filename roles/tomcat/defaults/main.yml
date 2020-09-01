@@ -1,0 +1,8 @@
+tomcat_url: http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.61/bin/apache-tomcat-7.0.61.tar.gz
+tomcat_filename: apache-tomcat-7.0.61
+tomcat_download_dest: /tmp/
+tomcat_install_dest: /opt/
+tomcat_https_port: 8443
+tomcat_ajp_port: 8019
+catalina_base: /usr/share/tomcat
+catalina_home: /usr/share/tomcat

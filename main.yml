@@ -1,0 +1,22 @@
+---
+# Default values for VM configuration
+# For further default values look in the ansible role of the respective tool
+
+# Jenkins
+jenkins_admin_username: admin
+jenkins_admin_password: admin
+jenkins_plugins: [JaCoco, m2release, git, saferestart, deploy, postbuild-task,jira, jenkins-jira-issue-updater,JiraTestResultReporter]
+jenkins_http_port: "{{jenkins_vm_port}}" # Defined in Vagranfile
+jenkins_home: /var/lib/jenkins # Home in VM
+
+# Git
+git_username: testuser
+git_email: testuser@example.com
+git_repo_remote_url: https://github.com/PreethiRTUB/mywebapp.git
+git_repo_local_path: /vagrant/vm_home/mywebapp
+
+# Tomcat
+tomcat_admin_username: admin
+tomcat_admin_password: admin
+tomcat_user_password: tomcat
+tomcat_http_port: "{{tomcat_vm_port}}" # Defined in Vagrantfile

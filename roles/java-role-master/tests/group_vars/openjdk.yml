@@ -1,0 +1,4 @@
+---
+java_implementation: openjdk
+java_open_jdk_version: [8]
+java_open_jdk_set_version: 8

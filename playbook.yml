@@ -1,0 +1,92 @@
+---
+- name: Configure CI server
+  hosts: ci-server
+  become: yes
+  vars_files:
+    - main.yml
+  roles:
+    - git
+    - geerlingguy.java
+    - ansible-maven-master
+    - java-role-master
+    - geerlingguy.jenkins
+    - geerlingguy.pip
+    - ansible-role-jira-master
+    - ansible-role-libreoffice-master
+    - tomcat
+  tasks:
+  # Jenkins configurations
+  - name: Creates report directory
+    file:
+      path: /home/vagrant/report
+      state: directory
+      mode: 0777
+  - name: Install python-jenkins
+    pip:
+      name: python-jenkins
+  - name: Install python-jira
+    pip:
+      name: jira
+  - name: Load jenkins configurations
+    command: chdir=/vagrant/python-scripts python ./loadConfiguration.py {{jenkins_admin_username}} {{jenkins_admin_password}} {{jenkins_http_port}}
+  - name: Stop Jenkins
+    service:
+      name: jenkins
+      state: stopped
+  - name: Delete generated identity key
+    file:
+      state: absent
+      path: "{{jenkins_home}}/identity.key.enc"
+  - name: Delete generated secrects folder
+    file:
+      state: absent
+      path: "{{jenkins_home}}/secrets"
+  - name: Add jenkins secrets folder with known keys
+    copy:
+      src: jenkins_config_files/secrets
+      dest: "{{jenkins_home}}"
+      mode: 0777
+  - name: Add jenkins credentials file with known keys
+    copy:
+      src: jenkins_config_files/credentials.xml
+      dest: "{{jenkins_home}}"
+      mode: 0777
+  - name: Add Jira Properties for Jira plugin
+    copy:
+      src: jenkins_config_files/hudson.plugins.jira.JiraProjectProperty.xml
+      dest: "{{jenkins_home}}"
+      mode: 0777
+  - name: Add Properties for JiraTestResultReporter plugin
+    copy:
+      src: jenkins_config_files/org.jenkinsci.plugins.JiraTestResultReporter.JiraTestDataPublisher.xml
+      dest: "{{jenkins_home}}"
+      mode: 0777
+  - name: Add properties for Jira/Junit plugin
+    copy:
+      src: jenkins_config_files/JiraIssueJobConfigs.json
+      dest: "{{jenkins_home}}/jobs/Build"
+      mode: 0777
+  - name: Restart Jenkins
+    service:
+      name: jenkins
+      state: started
+ # Repository setup
+  - name: Set Git user email
+    git_config:
+      name: user.email
+      value: "{{git_email}}"
+  - name: Set Git user name
+    git_config:
+      name: user.name
+      value: "{{git_username}}"
+  - name: Clone Git repository
+    git:
+      repo: "{{git_repo_remote_url}}"
+      dest: "{{git_repo_local_path}}"
+      clone: yes
+      force: yes
+  - name: Add Git hook
+    copy:
+      src: post-commit
+      dest: "{{git_repo_local_path}}/.git/hooks"
+      mode: 0555

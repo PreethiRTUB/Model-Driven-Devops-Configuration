@@ -1,0 +1,20 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<hudson.plugins.jira.JiraProjectProperty_-DescriptorImpl plugin="jira@3.0.0">
+  <sites>
+    <hudson.plugins.jira.JiraSite>
+      <url>https://mydevops2018.atlassian.net/</url>
+      <alternativeUrl>https://mydevops2018.atlassian.net/secure/RapidBoard.jspa?rapidView=2&amp;projectKey=MYW/</alternativeUrl>
+      <useHTTPAuth>false</useHTTPAuth>
+      <userName>s.ortmanns@gmx.de</userName>
+      <password>{AQAAABAAAAAQNK2HccO1Q9MwFz80rwRrWPSJ7MHq52Xd+3eWQ35tqI4=}</password>
+      <supportsWikiStyleComment>false</supportsWikiStyleComment>
+      <recordScmChanges>true</recordScmChanges>
+      <disableChangelogAnnotations>false</disableChangelogAnnotations>
+      <userPattern>MYW</userPattern>
+      <updateJiraIssueForAllStatus>true</updateJiraIssueForAllStatus>
+      <timeout>10</timeout>
+      <dateTimePattern></dateTimePattern>
+      <appendChangeTimestamp>true</appendChangeTimestamp>
+    </hudson.plugins.jira.JiraSite>
+  </sites>
+</hudson.plugins.jira.JiraProjectProperty_-DescriptorImpl>

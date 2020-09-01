@@ -1,0 +1,8 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<org.jenkinsci.plugins.JiraTestResultReporter.JiraTestDataPublisher_-JiraTestDataPublisherDescriptor plugin="JiraTestResultReporter@2.0.6">
+  <jiraUri>https://mydevops2018.atlassian.net/</jiraUri>
+  <username>s.ortmanns@gmx.de</username>
+  <password>{AQAAABAAAAAQCy2fWY4toC3EAe7BRCWtmmgL4g8CdAH2cI61/hCm4d4=}</password>
+  <defaultSummary>${TEST_FULL_NAME} : ${TEST_ERROR_DETAILS}</defaultSummary>
+  <defaultDescription>${BUILD_URL}${CRLF}${TEST_STACK_TRACE}</defaultDescription>
+</org.jenkinsci.plugins.JiraTestResultReporter.JiraTestDataPublisher_-JiraTestDataPublisherDescriptor>

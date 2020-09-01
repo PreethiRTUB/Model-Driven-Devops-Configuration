@@ -1,0 +1,23 @@
+{
+  "projectKey": "MYW",
+  "issueType": 10002,
+  "configs": [
+    {
+      "clazz": "StringFields",
+      "properties": {
+        "fieldKey": "summary",
+        "value": "${DEFAULT_SUMMARY}"
+      }
+    },
+    {
+      "clazz": "StringFields",
+      "properties": {
+        "fieldKey": "description",
+        "value": "${DEFAULT_DESCRIPTION}"
+      }
+    }
+  ],
+  "autoRaiseIssue": true,
+  "autoResolveIssue": true,
+  "autoUnlinkIssue": true
+}
