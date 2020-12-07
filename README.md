@@ -1,4 +1,4 @@
-# DevOps environment
+# Model-Driven-Devops-Configuration
 This program creates a virtual machine with a preconfigured DevOps environment. Please read carefully this README to prepare your system to run the project and understand its structure and function.
 
 An image of the virtual machine should be possible to be host on any system that is able to run VirtualBox. The building of the virtual machine otherwise has multiple requirements besides VirtualBox listed under Prerequisites.
